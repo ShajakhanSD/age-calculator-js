@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Times New Roman', Times, serif;
+    }
+
+    .container {
+        width: 100%;
+        min-height: 100vh;
+        background: linear-gradient(100deg rgb(239, 87, 87), #d0eaff);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .calculator {
+        width: 100%;
+        max-width: 600px;
+        margin: 30px 50px;
+    }
+
+    .calculator h1 {
+        font-size: 50px;
+        color: rgb(176, 45, 45);
+    }
+
+    .input-box {
+        margin: 40px 0;
+        padding: 25px;
+        border-radius: 10px;
+        background-color: #d0eaff;
+        display: flex;
+        align-items: center;
+    }
+
+    .input-box input {
+        flex: 1;
+        margin-right: 20px;
+        padding: 15px 20px;
+        border: 0;
+        outline: 0;
+        font-size: 18px;
+        border-radius: 5px;
+        position: relative;
+    }
+
+    .input-box button {
+        background: #fff760;
+        border: 0;
+        outline: 0;
+        padding: 15px 30px;
+        border-radius: 5px;
+        color: #333;
+        cursor: pointer;
+    }
+
+    .input-box input:: -webkit-calendar-picker-indicator {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: auto;
+        position: absolute;
+        background-position: calc(100%, -10px);
+        height: auto;
+        background-size: 30px;
+        cursor: pointer;
+    }
+
+    #result {
+        color: #333;
+        font-size: 25px;
+        font-weight: bold;
+    }
+
+    #result span {
+        color: green;
+        background-color: #d0eaff;
+        padding: 2px;
+        border-radius: 5px;
+    }
+
+
+
+    /*  */
+    .side_scroll {
+        display: flex;
+        width: 100vw;
+        height: 100vh;
+        overflow-x: hidden;
+        overflow-y: scroll;
+    }
+
+    .side_scroll::-webkit-scrollbar {
+        display: none
+    }
+
+    .scroll_element {
+        height: 100vh;
+        width: 100vw;
+        min-width: 100vw;
+        border: solid 1px black;
+    }
+
+    .full {
+        height: 100vh;
+        width: 100vw;
+        background: gray;
+    }
+</style>
+
+<body>
+
+    <div class="container">
+        <div class="calculator">
+            <h1>Age Calculator</h1>
+            <div class="input-box">
+                <input type="date" id="date">
+                <button onclick="calculAge()">Calculator</button>
+            </div>
+            <p id="result"></p>
+        </div>
+    </div>
+
+
+    <!--  -->
+
+    <!-- <div class="side_scroll">
+        <div class="scroll_element">
+            <img src="../weather-app/images/clouds.png" alt="">
+        </div>
+        <div class="scroll_element">
+            <img src="../weather-app/images/clouds.png" alt="">
+        </div>
+        <div class="scroll_element">
+            <img src="../weather-app/images/clouds.png" alt="">
+        </div>
+      </div> -->
+
+
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.rawgit.com/jquery/jquery-mousewheel/master/jquery.mousewheel.min.js"></script> -->
+
+    <script>
+        // $(".side_scroll").mousewheel(function (event, delta) {
+        //     this.scrollLeft -= (delta * 10);
+        //     event.preventDefault();
+        // });
+        let userInput = document.getElementById('date');
+        userInput.max = new Date().toISOString().split('T')[0];
+        let result = document.getElementById('result');
+
+        function calculAge() {
+            let birthDate = new Date(userInput.value);
+
+            let d1 = birthDate.getDate();
+            let m1 = birthDate.getMonth() + 1;
+            let y1 = birthDate.getFullYear();
+
+            let today = new Date();
+
+            let d2 = today.getDate();
+            let m2 = today.getMonth() + 1;
+            let y2 = today.getFullYear();
+
+            let d3, m3, y3;
+
+            y3 = y2 - y1;
+            if (m2 >= m1) {
+                m3 = m2 - m1;
+            } else {
+                y3--;
+                m3 = 12 + m2 - m1;
+            }
+
+            if (d2 >= d1) {
+                d3 = d2 - d1;
+            } else {
+                m3--;
+                d3 = getDaysInMonth(y1, m1)
+                    + d2 - d1;
+            }
+            if (m3 < 0) {
+                m3 = 11;
+                y3--;
+            }
+            result.innerHTML = `You are <span>${y3}</span> years, <span>${m3}</span> months and <span>${d3}</span> days old`;
+
+        }
+
+        function getDaysInMonth(year, month) {
+            return new Date(year, month, 0).getDate();
+        }
+    </script>
+</body>
+
+</html>
